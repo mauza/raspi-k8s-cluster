@@ -37,7 +37,7 @@ spec:
       volumes:
       - name: storage
         persistentVolumeClaim:
-          claimName: longhorn-docker-registry-pvc
+          claimName: docker-registry-pvc
       - name: htpasswd
         secret:
           secretName: docker-registry-htpasswd
@@ -45,12 +45,12 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: longhorn-docker-registry-pvc
+  name: docker-registry-pvc
   namespace: default
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: longhorn
+  storageClassName: nfs-client
   resources:
     requests:
       storage: 10Gi

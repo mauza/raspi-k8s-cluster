@@ -79,29 +79,14 @@ spec:
   - mosquitto.mau.guru
 ---
 apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
+kind: IngressRouteTCP
 metadata:
   name: mosquitto-nginx-ingress-secure
 spec:
-  entryPoints:
-    - websecure
   routes:
   - match: Host(`mosquitto.mau.guru`)
-    kind: Rule
-    middlewares:
-      - name: svc-headers
     services:
     - name: mosquitto
       port: 9001
-      passHostHeader: true
   tls:
     secretName: mosquitto-mau-guru-tls
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: svc-headers
-spec:
-  headers:
-    customRequestHeaders:
-      X-Forwarded-Proto: "https"

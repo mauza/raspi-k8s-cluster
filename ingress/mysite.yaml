@@ -59,4 +59,20 @@ spec:
       port: 80
   tls:
     secretName: mau-guru-tls
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: mysite-nginx-ingress
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`test.mau.guru`)
+    kind: Rule
+    services:
+    - name: mysite-nginx-service
+      port: 80
+    middlewares:
+      - name: default-https-redirect@kubernetescrd
 

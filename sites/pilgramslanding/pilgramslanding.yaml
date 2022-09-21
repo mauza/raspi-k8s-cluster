@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: seekout-http
+  labels:
+    app: seekout-http
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: seekout-http
+  template:
+    metadata:
+      labels:
+        app: seekout-http
+    spec:
+      containers:
+      - name: seekout-http
+        image: docker.mau.guru/seekout-http:v0.1.2
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: seekout-http-service
+spec:
+  selector:
+    app: seekout-http
+  ports:
+    - protocol: TCP
+      port: 80
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: seekout-http-cert
+  namespace: default
+spec:
+  secretName: seekout-http-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+  - seekout.mau.guru
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: seekout-http-ingress-secure
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`seekout.mau.guru`) && PathPrefix(`/`) 
+    kind: Rule
+    services:
+    - name: seekout-http-service
+      port: 80
+  tls:
+    secretName: seekout-http-tls
+

@@ -1,0 +1,16 @@
+cluster:
+  enabled: true
+  replicas: 3
+
+nats:
+  image: nats:alpine
+
+  jetstream:
+    enabled: true
+
+    fileStorage:
+      enabled: true
+      size: "10Gi"
+      storageDirectory: /data/
+      storageClassName: nfs-client
+
