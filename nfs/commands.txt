@@ -1,0 +1,4 @@
+helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+helm install nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner \                                                                                                                                                                 home/default 07:34:01 PM
+    --set nfs.server=10.11.15.27 \
+    --set nfs.path=/mnt/Mahone1/Storage/k8s
