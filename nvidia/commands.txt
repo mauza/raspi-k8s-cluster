@@ -6,3 +6,7 @@ helm install --wait --generate-name \
   --set driver.enabled=false \
   --set toolkit.enabled=false
 
+# Some edits to cgroups and a few other things here:
+# sudo vim /etc/nvidia-container-runtime/config.toml
+# this might not have had anything to do with getting
+# it working
