@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: docker-registry
+  namespace: docker
   labels:
     app: docker-registry
 spec:
@@ -46,19 +47,20 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: docker-registry-pvc
-  namespace: default
+  namespace: docker
 spec:
   accessModes:
     - ReadWriteOnce
   storageClassName: nfs-client
   resources:
     requests:
-      storage: 10Gi
+      storage: 100Gi
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: docker-registry-service
+  namespace: docker
 spec:
   selector:
     app: docker-registry
@@ -70,7 +72,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: docker-mau-guru
-  namespace: default
+  namespace: docker
 spec:
   secretName: docker-mau-guru-tls
   issuerRef:
@@ -83,6 +85,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: docker-registry-ingress-secure
+  namespace: docker
 spec:
   entryPoints:
     - websecure
