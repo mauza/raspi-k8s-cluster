@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: argo-mau-guru
-  namespace: default
+  namespace: argocd
 spec:
   secretName: argo-mau-guru-tls
   issuerRef:

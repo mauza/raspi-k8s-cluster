@@ -1,0 +1,15 @@
+ingress:
+  enabled: true
+  ingressName: "shop-mau-guru"
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/tls-acme: "true"
+  hosts:
+  - host: shop.mau.guru
+    paths:
+    - path: /
+      pathType: ImplementationSpecific
+  tls:
+   - secretName: shop-mau-guru-tls
+     hosts:
+       - shop.mau.guru

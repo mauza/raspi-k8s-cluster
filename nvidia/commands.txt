@@ -10,3 +10,6 @@ helm install --wait --generate-name \
 # sudo vim /etc/nvidia-container-runtime/config.toml
 # this might not have had anything to do with getting
 # it working
+
+# trying this
+kubectl apply -f https://gist.githubusercontent.com/brandond/33e49bf094712f926c95d683d515ac95/raw/nvidia.yaml

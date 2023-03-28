@@ -1,0 +1,33 @@
+---
+# Source: erpnext/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: shop-mau-guru
+  labels:
+    helm.sh/chart: erpnext-6.0.16
+    app.kubernetes.io/name: erpnext
+    app.kubernetes.io/instance: frappe-bench
+    app.kubernetes.io/version: "v14.18.3"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.middlewares: default-https-redirect@kubernetescrd
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+    - hosts:
+        - "shop.mau.guru"
+      secretName: shop-mau-guru-tls
+  rules:
+    - host: "shop.mau.guru"
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: frappe-bench-erpnext
+                port:
+                  number: 8080

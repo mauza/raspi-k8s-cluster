@@ -1,0 +1,5 @@
+kubectl create namespace erpnext
+helm repo add frappe https://helm.erpnext.com
+helm install frappe-bench -n erpnext frappe/erpnext -f values.yaml
+
+helm template frappe-bench -n erpnext frappe/erpnext -f shop-site.yaml -s templates/job-create-site.yaml --set persistence.worker.storageClass=nfs-client > create-new-site-job.yaml

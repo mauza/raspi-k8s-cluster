@@ -1,0 +1,5 @@
+jobs:
+  createSite:
+    enabled: true
+    siteName: "shop.mau.guru"
+    adminPassword: "changeme"
