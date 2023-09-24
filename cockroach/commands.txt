@@ -1,0 +1,4 @@
+kubectl apply -f https://raw.githubusercontent.com/cockroachdb/cockroach-operator/v2.11.0/install/crds.yaml
+kubectl apply -f https://raw.githubusercontent.com/cockroachdb/cockroach-operator/v2.11.0/install/operator.yaml
+
+kubectl create -f https://raw.githubusercontent.com/cockroachdb/cockroach-operator/v2.11.0/examples/client-secure-operator.yaml

@@ -1,1 +1,0 @@
-nfs was had maproot user and maproot group setup and that disallowed a chown that needed to happen in the init container
