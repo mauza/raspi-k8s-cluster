@@ -50,7 +50,15 @@ metadata:
   name: mysite-nginx-ingress-secure
 spec:
   entryPoints:
-    - websecure
+    web:
+      address: :80
+      http:
+        redirections:
+          entryPoint:
+            to: websecure
+            scheme: https
+    websecure:
+      address: :443
   routes:
   - match: Host(`test.mau.guru`)
     kind: Rule
@@ -59,20 +67,3 @@ spec:
       port: 80
   tls:
     secretName: mau-guru-tls
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: mysite-nginx-ingress
-spec:
-  entryPoints:
-    - web
-  routes:
-  - match: Host(`test.mau.guru`)
-    kind: Rule
-    services:
-    - name: mysite-nginx-service
-      port: 80
-    middlewares:
-      - name: default-https-redirect@kubernetescrd
-
