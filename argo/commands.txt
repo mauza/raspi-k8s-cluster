@@ -1,3 +1,12 @@
 kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+kubectl patch deployment argocd-server -n argocd --patch '                                                 
+spec:
+  template:
+    spec:
+      containers:
+      - name: argocd-server
+        args:
+        - /usr/local/bin/argocd-server
+        - --insecure
+'

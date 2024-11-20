@@ -1,0 +1,59 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: whoami-tls-ingress
+  namespace: sites
+  annotations:
+    spec.ingressClassName: traefik
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
+spec:
+  rules:
+    - host: whoami.mau.guru
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: whoami
+                port:
+                  number: 5678
+  tls:
+    - secretName: whoami-tls
+      hosts:
+        - whoami.mau.guru
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: whoami
+  namespace: sites
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5678
+      targetPort: 80
+  selector:
+    app: whoami
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whoami
+  namespace: sites
+spec:
+  selector:
+    matchLabels:
+      app: whoami
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: whoami
+    spec:
+      containers:
+        - name: whoami
+          image: traefik/whoami:v1.9.0
+          ports:
+            - containerPort: 80
