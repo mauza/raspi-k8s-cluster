@@ -9,14 +9,6 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-prod
     solvers:
-    - selector:
-        dnsZones:
-        - 'happinessinvesting.com'
-        - 'mauza.net'
-        - 'mau.guru'
-      dns01:
-        cloudflare:
-          email: "mauza11@gmail.com"
-          apiTokenSecretRef:
-            name: cloudflare-api-token
-            key: api-token
+    - http01:
+        ingress:
+          class: traefik

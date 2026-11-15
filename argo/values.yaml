@@ -1,0 +1,23 @@
+# ArgoCD Helm Chart Values
+# Chart version: 9.1.0
+# App version: v3.2.0
+
+global:
+  domain: argo.mau.guru
+
+# Server configuration
+server:
+  # Run server without TLS (for Traefik ingress compatibility)
+  extraArgs:
+    - --insecure
+  
+  # Ingress is managed separately in argo.yaml
+  ingress:
+    enabled: false
+
+# CRD configuration - CRDs already exist from previous installation
+# Skip installation but keep them on uninstall to preserve application data
+crds:
+  install: false
+  keep: true
+
